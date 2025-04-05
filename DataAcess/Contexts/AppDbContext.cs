@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccess.Models.DepartmentModels;
+using DataAccess.Models.EmployeeModels;
 
 namespace DataAcess.Contexts
 {
@@ -30,6 +32,7 @@ namespace DataAcess.Contexts
             //modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
            
         }
-    public DbSet<Department> Departments { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

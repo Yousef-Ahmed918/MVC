@@ -1,11 +1,10 @@
-﻿
-@model DepartmentsDetailsDto
+﻿@model DepartmentsDetailsDto
 @{
     ViewData["Title"] = "Details";
 }
 
 
-<h1 class="my-5 w-75">Department Details</h1>
+<h1 class="my-5 w-75">Delete @Model.Name Department </h1>
 
 
 <ul class="nav nav-tabs" id="departmentTabs" role="tablist">
@@ -62,7 +61,9 @@
         </div>
     </div>
     <div class="mt-4">
-        <a asp-action="Edit" asp-route-id="@Model.DeptId" class="btn btn-success">Edit</a>
+        <form method="post" asp-controller="Department" asp-action="Delete" asp-route-id="@Model.DeptId">
+        <input type="submit" class="btn btn-danger" value="Delete" />
         <a asp-action="Index" class="btn btn-outline-dark">Back To list</a>
+        </form>
     </div>
 </div>

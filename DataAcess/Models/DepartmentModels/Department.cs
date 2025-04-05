@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccess.Models.SharedModels;
 
-namespace DataAcess.Models
+namespace DataAccess.Models.DepartmentModels
 {
-    public class Department :BaseEntity
+    public class Department : BaseEntity
     {
         public required string Name { get; set; }
         public string Code { get; set; } = null!;
 
-        public string?  Description { get; set; }
+        public string? Description { get; set; }
     }
 }

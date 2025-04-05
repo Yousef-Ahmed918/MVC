@@ -1,6 +1,4 @@
-using BussinessLogic.Services;
 using DataAcess.Contexts;
-using DataAcess.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace MVC
@@ -13,8 +11,17 @@ namespace MVC
 
             #region Add services to the container.
             builder.Services.AddControllersWithViews(); 
+            //Department
             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
+            //Employee
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeService , EmployeeService>();
+            //Auto Mapper
+            builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            builder.Services.AddAutoMapper(p => p.AddProfile(new MappingProfiles()));
+
+            //Options
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 //options.UseSqlServer(builder.Configuration["ConnctionStrings:DefaultConnection"]);//Reads from appsitting jason file

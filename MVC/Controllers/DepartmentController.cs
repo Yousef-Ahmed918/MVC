@@ -2,6 +2,8 @@
 using BussinessLogic.Services;
 using BussinessLogic.DTOs;
 using MVC.View_Models.DepartmentViewModels;
+using BussinessLogic.Services.Interfaces;
+using BussinessLogic.DTOs.DepartmentDTOs;
 
 namespace MVC.Controllers
 {
@@ -11,6 +13,8 @@ namespace MVC.Controllers
         IWebHostEnvironment _environment
         ) : Controller
     {
+      
+        //Index
         public IActionResult Index()
         {
             var departments=_departmentService.GetAllDepartments();
@@ -72,6 +76,7 @@ namespace MVC.Controllers
         }
 
         //Edit 
+        #region Edit
         [HttpGet]
         public IActionResult Edit(int? id)
         {
@@ -89,46 +94,83 @@ namespace MVC.Controllers
                     Description = department.Description,
                     DateOfCreation = department.DateOfCreation
                 };
-            return View(departmentViewModel);
+                return View(departmentViewModel);
             }
         }
         [HttpPost]
-        public IActionResult Edit([FromRoute]int  id,DepartmentViewModels departmentViewModels)
+        public IActionResult Edit([FromRoute] int id, DepartmentViewModels departmentViewModels)
         {
             if (!ModelState.IsValid) return View(departmentViewModels);
-           
-                try
-                {
-                    var UpdatedDept = new UpdateDepartmentDto()
-                    {
-                        DeptId=id,
-                        Code = departmentViewModels.Code, 
-                        Name = departmentViewModels.Name, 
-                        Description = departmentViewModels.Description,
-                        DateOfCreation = departmentViewModels.DateOfCreation
-                    };
-                    var res = _departmentService.UpdateDepartmetn(UpdatedDept);
-                    if (res > 0) return RedirectToAction(nameof(Index));
-                    else 
-                    {
-                        ModelState.AddModelError(string.Empty, "Department Cant Be Updated");
-                        //return View(departmentViewModels);
-                    } 
-                }
-                catch (Exception ex)
-                {
-                    if (_environment.IsDevelopment())
-                    {
-                        //1)Development  => Console 
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                    else
-                    {
-                        _logger.LogError(ex.Message);
-                    }
 
+            try
+            {
+                var UpdatedDept = new UpdateDepartmentDto()
+                {
+                    Code = departmentViewModels.Code,
+                    Name = departmentViewModels.Name,
+                    Description = departmentViewModels.Description,
+                    DateOfCreation = departmentViewModels.DateOfCreation
+                };
+                var res = _departmentService.UpdateDepartmetn(UpdatedDept);
+                if (res > 0) return RedirectToAction(nameof(Index));
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Department Cant Be Updated");
+                    //return View(departmentViewModels);
                 }
+            }
+            catch (Exception ex)
+            {
+                if (_environment.IsDevelopment())
+                {
+                    //1)Development  => Console 
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                }
+
+            }
             return View(departmentViewModels);
+        }
+        #endregion
+
+        //Delete
+
+        //To Implement the pop Up Comment the Http Get
+        //[HttpGet]
+        //public IActionResult Delete (int? id)
+        //{
+        //    if (!id.HasValue) return BadRequest();
+        //   var department =_departmentService.GetDepartmentById(id.Value);
+        //   if (department is null) return NotFound();
+        //    return View(department);
+        //}
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if (id == 0) return BadRequest(); 
+            try
+            {
+                var isDeleted = _departmentService.DeleteDepartment(id);
+                if (isDeleted) return RedirectToAction(nameof(Index));
+
+                ModelState.AddModelError(string.Empty, "Department Cant be Deleted");
+            }
+            catch (Exception ex)
+            {
+                if (_environment.IsDevelopment())
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                }
+            }
+            return RedirectToAction(nameof(Delete),new {id});
         }
 
     }

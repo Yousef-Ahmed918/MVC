@@ -4,6 +4,7 @@ using DataAcess.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250411222204_AddEmployeeTable")]
+    partial class AddEmployeeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,11 +25,7 @@ namespace DataAccess.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-<<<<<<< HEAD
-            modelBuilder.Entity("DataAcess.Models.Department", b =>
-=======
             modelBuilder.Entity("DataAccess.Models.DepartmentModels.Department", b =>
->>>>>>> Add project files.
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,8 +67,6 @@ namespace DataAccess.Data.Migrations
 
                     b.ToTable("Departments");
                 });
-<<<<<<< HEAD
-=======
 
             modelBuilder.Entity("DataAccess.Models.EmployeeModels.Employee", b =>
                 {
@@ -135,7 +132,6 @@ namespace DataAccess.Data.Migrations
 
                     b.ToTable("Employees");
                 });
->>>>>>> Add project files.
 #pragma warning restore 612, 618
         }
     }
