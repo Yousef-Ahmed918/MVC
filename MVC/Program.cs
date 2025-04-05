@@ -1,3 +1,4 @@
+using BussinessLogic.Services;
 using DataAcess.Contexts;
 using DataAcess.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace MVC
             #region Add services to the container.
             builder.Services.AddControllersWithViews(); 
             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
+            builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 //options.UseSqlServer(builder.Configuration["ConnctionStrings:DefaultConnection"]);//Reads from appsitting jason file
@@ -21,6 +23,7 @@ namespace MVC
                 //OR
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             }); //Register Service in DI Container
+
             #endregion
 
             var app = builder.Build();
