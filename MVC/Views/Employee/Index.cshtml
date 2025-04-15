@@ -35,9 +35,7 @@
                     <td>@employee.EmpType</td>
                     <td>@employee.Age</td>
                     <td>@Html.DisplayFor(e=>employee.Salary)</td>
-
-
-                    <td> <i class="fa" @(employee.IsActive ? "fa - solid fa - circle - check text-success" : "fa - solid fa - circle - xmark text-success")> </i> </td>
+                    <td>@employee.IsActive</td>
                     <td>@employee.EmpGender</td>
 
                     <td>
@@ -87,6 +85,4 @@ else
         <h2>No Employees Found !!</h2>
     </div>
 }
-
-
 

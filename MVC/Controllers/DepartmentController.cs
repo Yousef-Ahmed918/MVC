@@ -106,12 +106,13 @@ namespace MVC.Controllers
             {
                 var UpdatedDept = new UpdateDepartmentDto()
                 {
+                    DeptId = id,
                     Code = departmentViewModels.Code,
                     Name = departmentViewModels.Name,
                     Description = departmentViewModels.Description,
                     DateOfCreation = departmentViewModels.DateOfCreation
                 };
-                var res = _departmentService.UpdateDepartmetn(UpdatedDept);
+                var res = _departmentService.UpdateDepartment(UpdatedDept);
                 if (res > 0) return RedirectToAction(nameof(Index));
                 else
                 {

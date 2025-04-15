@@ -90,7 +90,7 @@ namespace BussinessLogic.Services.Classes
         }
 
         //Update Department 
-        public int UpdateDepartmetn(UpdateDepartmentDto updateDepartmentDto)
+        public int UpdateDepartment(UpdateDepartmentDto updateDepartmentDto)
         {
             var dept = updateDepartmentDto.ToEntity();
             var resutl = _departmentRepository.Update(dept);

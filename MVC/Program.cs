@@ -1,5 +1,10 @@
 using DataAcess.Contexts;
 using Microsoft.EntityFrameworkCore;
+using DataAccess.Repositories.Interfaces;
+using DataAccess.Repositories.Classes;
+using BussinessLogic.Services.Classes;
+using BussinessLogic.Services.Interfaces;
+using BussinessLogic.Profiles;
 
 namespace MVC
 {

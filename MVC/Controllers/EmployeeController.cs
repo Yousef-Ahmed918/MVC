@@ -55,5 +55,15 @@ namespace MVC.Controllers
         }
         #endregion
 
+        #region Details
+        [HttpGet]
+        public IActionResult Details(int ? id)
+        {
+            if (!id.HasValue) BadRequest();
+            var employee = _employeeService.GetEmployeeById(id.Value);
+            return employee is null?NotFound():View(employee);
+        }
+        #endregion
+
     }
 }

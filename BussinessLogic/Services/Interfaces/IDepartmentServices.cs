@@ -8,7 +8,7 @@ namespace BussinessLogic.Services.Interfaces
         int CreateDepartment(CreateDepartmentDto createDepartmentDto);
         IEnumerable<GetDepartmentDto> GetAllDepartments();
         DepartmentsDetailsDto? GetDepartmentById(int id);
-        int UpdateDepartmetn(UpdateDepartmentDto updateDepartmentDto);
+        int UpdateDepartment(UpdateDepartmentDto updateDepartmentDto);
         bool DeleteDepartment(int id);
 
     }
