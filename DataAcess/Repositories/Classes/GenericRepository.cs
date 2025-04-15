@@ -19,10 +19,10 @@ namespace DataAccess.Repositories.Classes
         {
             if (withTracking)
             {
-                return _dbContext.Set <TEntity>().ToList();
+                return _dbContext.Set <TEntity>().Where(e=>e.IsDeleted!=true).ToList();
             }
             else
-                return _dbContext.Set <TEntity>().AsNoTracking().ToList();
+                return _dbContext.Set <TEntity>().Where(e => e.IsDeleted != true).AsNoTracking().ToList();
         }
         //GetById
         public TEntity? GetById(int id)

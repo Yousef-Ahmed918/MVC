@@ -4,6 +4,7 @@ using BussinessLogic.DTOs;
 using MVC.View_Models.DepartmentViewModels;
 using BussinessLogic.Services.Interfaces;
 using BussinessLogic.DTOs.DepartmentDTOs;
+using BussinessLogic.DTOs.EmployeeDTOs;
 
 namespace MVC.Controllers
 {
@@ -98,15 +99,16 @@ namespace MVC.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Edit([FromRoute] int id, DepartmentViewModels departmentViewModels)
+        public IActionResult Edit([FromRoute] int? id, DepartmentViewModels departmentViewModels)
         {
+            if (!id.HasValue) BadRequest();
             if (!ModelState.IsValid) return View(departmentViewModels);
 
             try
             {
                 var UpdatedDept = new UpdateDepartmentDto()
                 {
-                    DeptId = id,
+                    DeptId = id.Value,
                     Code = departmentViewModels.Code,
                     Name = departmentViewModels.Name,
                     Description = departmentViewModels.Description,
