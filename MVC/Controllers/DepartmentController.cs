@@ -30,18 +30,28 @@ namespace MVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateDepartmentDto createDepartmentDto)
+        public IActionResult Create(DepartmentViewModels  departmentView)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    int res=_departmentService.CreateDepartment(createDepartmentDto);
-                    if (res>0)  return RedirectToAction(nameof(Index)); //Back To list
-                    else
+                    var createDepartmentDto = new CreateDepartmentDto()
                     {
-                        ModelState.AddModelError(string.Empty, "Department Cant Be Created");
-                    }
+                        Name = departmentView.Name,
+                        Code = departmentView.Code,
+                        DateOfCreation = departmentView.DateOfCreation,
+                        Description = departmentView.Description
+
+                    };
+                    int res = _departmentService.CreateDepartment(createDepartmentDto);
+                    var message = string.Empty;
+                    if (res > 0) message = "Department Created Successfully";
+                    else message = "Department Cant Be Created";
+                    ViewData["SpecialMsg01"] = message;
+                    TempData["SpecialMsg02"] = message;
+
+                    return RedirectToAction(nameof(Index));//Back To list             
                 }
                 catch (Exception ex)
                 {
@@ -50,7 +60,7 @@ namespace MVC.Controllers
                     //2)Deployment   => File / Table In the Database (More organaized)
                     if (_environment.IsDevelopment())
                     {
-                    //1)Development  => Console 
+                        //1)Development  => Console 
                         ModelState.AddModelError(string.Empty, ex.Message);
                     }
                     else
@@ -58,11 +68,11 @@ namespace MVC.Controllers
                         _logger.LogError(ex.Message);
 
                     }
-                    
+
                 }
             }
             
-                return View(createDepartmentDto);
+                return View(departmentView);
            
         } 
         #endregion
@@ -79,11 +89,11 @@ namespace MVC.Controllers
         //Edit 
         #region Edit
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int? id) 
         {
             if (!id.HasValue) return BadRequest();
             var department = _departmentService.GetDepartmentById(id.Value);
-
+             
             //Map From DepartmentDetailsDto  To DepartmentEditViewModel
             if (department is null) return NotFound();
             else
@@ -95,7 +105,7 @@ namespace MVC.Controllers
                     Description = department.Description,
                     DateOfCreation = department.DateOfCreation
                 };
-                return View(departmentViewModel);
+                return View(departmentViewModel); 
             }
         }
         [HttpPost]

@@ -5,6 +5,7 @@ using DataAccess.Repositories.Classes;
 using BussinessLogic.Services.Classes;
 using BussinessLogic.Services.Interfaces;
 using BussinessLogic.Profiles;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MVC
 {
@@ -15,7 +16,10 @@ namespace MVC
             var builder = WebApplication.CreateBuilder(args);
 
             #region Add services to the container.
-            builder.Services.AddControllersWithViews(); 
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            }); 
             //Department
             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();

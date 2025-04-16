@@ -47,5 +47,13 @@ namespace DataAccess.Repositories.Classes
             _dbContext.Set <TEntity>().Remove(entity);
             return _dbContext.SaveChanges();
         }
+
+        //public IEnumerable<TEntity> GetAll<TResult>(System.Linq.Expressions.Expression<Func<TEntity, TResult>> selector)
+        //{
+
+        //    return _dbContext.Set<TEntity>()
+        //        .Select(selector);
+                
+        //}
     }
 }

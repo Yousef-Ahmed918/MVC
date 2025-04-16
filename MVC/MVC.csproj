@@ -18,4 +18,8 @@
     <ProjectReference Include="..\BussinessLogic\BussinessLogic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Employee\Partial Views\" />
+  </ItemGroup>
+
 </Project>

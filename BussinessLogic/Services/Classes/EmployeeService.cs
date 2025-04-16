@@ -22,6 +22,7 @@ namespace BussinessLogic.Services.Classes
 
         public IEnumerable<GetEmployeeDto> GetAllEmployees()
         {
+
             var employees = _employeeRepository.GetAll();
             //Manual Mapping
             //Map From Ienumerable <Employee> to IEnumerable <GetEmployeeDto>
@@ -43,8 +44,17 @@ namespace BussinessLogic.Services.Classes
             //IMapper.Map<TDestination> (TSource)
             //IMapper.Map<TSource , TDestination> (TSource)
 
-            var employeesDto = _mapper.Map<IEnumerable<GetEmployeeDto>>(employees); 
+            var employeesDto = _mapper.Map<IEnumerable<GetEmployeeDto>>(employees);
             return employeesDto;
+
+            //IEnumerable vs IQueryable
+            //var employees = _employeeRepository.GetAll(e => new GetEmployeeDto()
+            //{
+            //    Id = e.Id,
+            //    Name = e.Name,
+            //    Age = e.Age,
+            //});
+            //return employees;
         }
 
         public EmployeeDetailsDto? GetEmployeeById(int id)
