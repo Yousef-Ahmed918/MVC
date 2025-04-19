@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Models.DepartmentModels;
 using DataAccess.Models.EmployeeModels;
+using Microsoft.Extensions.Options;
 
 namespace DataAcess.Contexts
 {
@@ -20,10 +21,11 @@ namespace DataAcess.Contexts
         //}
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    //optionsBuilder.UseSqlServer("ConnectionString");
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            ////Lazy Loading
+            //optionsBuilder.UseLazyLoadingProxies();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

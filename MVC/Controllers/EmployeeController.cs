@@ -6,6 +6,7 @@ using DataAccess.Models.EmployeeModels;
 using DataAccess.Models.SharedModels;
 using Microsoft.AspNetCore.Mvc;
 using MVC.View_Models.DepartmentViewModels;
+using MVC.View_Models.EmployeeViewModels;
 
 namespace MVC.Controllers
 {
@@ -21,20 +22,35 @@ namespace MVC.Controllers
             var employees=_employeeService.GetAllEmployees();
             return View(employees);
         }
-
+ 
         #region Create
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create(/*[FromServices]IDepartmentServices _departmentServices //ActionInjection*/)
         {
+            //ViewData["Departments"]=_departmentServices.GetAllDepartments();
             return View();
         }
         [HttpPost]
-        public IActionResult Create(CreateEmployeeDto createEmployeeDto)
+        public IActionResult Create(EmployeeViewModels employeeView)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var createEmployeeDto = new CreateEmployeeDto()
+                    {
+                        Name = employeeView.Name,
+                        Address = employeeView.Address,
+                        Age = employeeView.Age,
+                        DeptId = employeeView.DeptId,
+                        Email = employeeView.Email,
+                        Gender = employeeView.Gender,
+                        EmployeeType = employeeView.EmployeeType,
+                        HiringDate = employeeView.HiringDate,
+                        IsActive = employeeView.IsActive,
+                        PhoneNumber = employeeView.PhoneNumber,
+                        Salary = employeeView.Salary,
+                    }; 
                     var res = _employeeService.CreateEmployee(createEmployeeDto);
                     if (res > 0) return RedirectToAction(nameof(Index));
                     else
@@ -56,7 +72,7 @@ namespace MVC.Controllers
                 }
 
             }
-            return View(createEmployeeDto);
+            return View(employeeView);
         }
         #endregion
 
@@ -72,14 +88,14 @@ namespace MVC.Controllers
 
         #region Edit
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int? id/*,[FromServices]IDepartmentServices _departmentServices //Action Injection*/)
         {
             if (!id.HasValue) return BadRequest();
             var employee=_employeeService.GetEmployeeById(id.Value);
             //Map From EmployeeDetailsDto to UpdateEmployeeDto
-            var updatedEmployeeDto = new UpdateEmployeeDto()
+            //ViewData["Departments"] = _departmentServices.GetAllDepartments();
+            var employeeViewModels = new EmployeeViewModels()
             {
-                Id = id.Value,
                 Name = employee.Name,
                 Address = employee.Address,
                 Age = employee.Age,
@@ -89,23 +105,38 @@ namespace MVC.Controllers
                 IsActive = employee.IsActive,
                 Salary = employee.Salary,
                 Gender = Enum.Parse<Gender>(employee.EmpGender),
-                EmployeeType = Enum.Parse<EmployeeType>(employee.EmpType)
+                EmployeeType = Enum.Parse<EmployeeType>(employee.EmpType),
+                DeptId=employee.DeptId
             };
-            return View(updatedEmployeeDto);
+            return View(employeeViewModels);
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute] int? id, UpdateEmployeeDto updateEmployeeDto)
+        public IActionResult Edit([FromRoute] int? id, EmployeeViewModels employeeView)
         { 
 
-            if (!id.HasValue||id != updateEmployeeDto.Id) return BadRequest();
-            if (!ModelState.IsValid) return View(updateEmployeeDto);
+            if (!id.HasValue ) return BadRequest();
+            if (!ModelState.IsValid) return View(employeeView);
 
             try
             {
 
-               
-                var res = _employeeService.UpdateEmployee(updateEmployeeDto);
+                var employeeViewModels = new UpdateEmployeeDto()
+                {
+                    Id=id.Value,
+                    Name = employeeView.Name,
+                    Address = employeeView.Address,
+                    Age = employeeView.Age,
+                    Email = employeeView.Email,
+                    HiringDate = employeeView.HiringDate,
+                    PhoneNumber = employeeView.PhoneNumber,
+                    IsActive = employeeView.IsActive,
+                    Salary = employeeView.Salary,
+                    Gender = employeeView.Gender,
+                    EmployeeType = employeeView.EmployeeType,
+                    DeptId = employeeView.DeptId
+                };
+                var res = _employeeService.UpdateEmployee(employeeViewModels);
                 if (res > 0) return RedirectToAction(nameof(Index));
                 else
                 {
@@ -126,7 +157,7 @@ namespace MVC.Controllers
                 }
 
             }
-            return View(updateEmployeeDto);
+            return View(employeeView);
         }
 
         #endregion

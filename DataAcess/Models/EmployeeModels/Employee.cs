@@ -23,7 +23,7 @@ namespace DataAccess.Models.EmployeeModels
         public EmployeeType EmployeeType { get; set; }
 
         public int? DeptId { get; set; }
-        public Department? Department { get; set; }
+        public virtual Department? Department { get; set; }
 
     }
 }

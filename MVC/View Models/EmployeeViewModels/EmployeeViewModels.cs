@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataAccess.Models.EmployeeModels;
+﻿using DataAccess.Models.EmployeeModels;
 using DataAccess.Models.SharedModels;
+using System.ComponentModel.DataAnnotations;
 
-namespace BussinessLogic.DTOs.EmployeeDTOs
+namespace MVC.View_Models.EmployeeViewModels
 {
-    public class CreateEmployeeDto 
+    public class EmployeeViewModels
     {
+
         [Required]
         [MaxLength(50, ErrorMessage = "Max length should be 50 character")]
         [MinLength(5, ErrorMessage = "Min length should be 5 characters")]
@@ -30,13 +26,11 @@ namespace BussinessLogic.DTOs.EmployeeDTOs
         [Phone]
         public string? PhoneNumber { get; set; }
         [Display(Name = "Hiring Date")]
+        public DateOnly HiringDate { get; set; }
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
-        public int ? DeptId { get; set; }   
-
-        #region Members To Reconfigure
-        public DateOnly HiringDate { get; set; }
-
-        #endregion
+        
+        [Display(Name = "Department")]
+        public int? DeptId { get; set; }
     }
 }

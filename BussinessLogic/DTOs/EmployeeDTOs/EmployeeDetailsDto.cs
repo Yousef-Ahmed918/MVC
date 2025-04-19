@@ -21,6 +21,8 @@ namespace BussinessLogic.DTOs.EmployeeDTOs
         public DateTime? CreatedOn { get; set; }
         public int LastModifiedBy { get; set; }
         public DateTime? LastModifiedOn{ get; set; }
+        public int? DeptId { get; set; }
+        public string? DeptName { get; set; }
 
         #region Members To Configure
         public DateOnly HiringDate { get; set; }

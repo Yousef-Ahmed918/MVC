@@ -20,12 +20,13 @@ namespace BussinessLogic.Profiles
                 //TDestination        TSource     
                 .ForMember(dest=>dest.EmpType , options=>options.MapFrom(emp=>emp.EmployeeType))
                 .ForMember(dest=>dest.EmpGender , options=>options.MapFrom(emp=>emp.Gender))
+                .ForMember(dest => dest.DeptName, options=>options.MapFrom(emp=>emp.Department !=null? emp.Department.Name:null))
                 ; //Get
             CreateMap<Employee, EmployeeDetailsDto>()
                 .ForMember(dest=>dest.EmpType , options => options.MapFrom(emp=>emp.EmployeeType))
                 .ForMember(dest=>dest.EmpGender , options => options.MapFrom(emp=>emp.Gender))
                 .ForMember(dest=>dest.HiringDate , options => options.MapFrom(emp=>DateOnly.FromDateTime(emp.HiringDate)))
-
+                .ForMember(dest => dest.DeptName, options=>options.MapFrom(emp=>emp.Department !=null? emp.Department.Name:null))
                 ; //Get
 
                            //TSource     TDestination
@@ -36,7 +37,9 @@ namespace BussinessLogic.Profiles
             CreateMap<UpdateEmployeeDto  , Employee > ()
                 .ForMember(dest=> dest.HiringDate , options=> options.MapFrom(empDto=> empDto.HiringDate.ToDateTime(TimeOnly.MinValue)))
                 ; //Update
-        }
+
+
+      }
          
 
     }

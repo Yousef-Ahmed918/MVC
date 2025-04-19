@@ -6,6 +6,7 @@ using BussinessLogic.Services.Classes;
 using BussinessLogic.Services.Interfaces;
 using BussinessLogic.Profiles;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace MVC
 {
@@ -38,7 +39,12 @@ namespace MVC
                 //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
                 //OR
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                //Lazy Loading
+                options.UseLazyLoadingProxies();
+
+
             }); //Register Service in DI Container
+
 
             #endregion
 
