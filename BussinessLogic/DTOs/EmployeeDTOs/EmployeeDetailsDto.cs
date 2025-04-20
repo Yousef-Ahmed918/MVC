@@ -24,6 +24,8 @@ namespace BussinessLogic.DTOs.EmployeeDTOs
         public int? DeptId { get; set; }
         public string? DeptName { get; set; }
 
+        public string?  ImageName { get; set; }
+
         #region Members To Configure
         public DateOnly HiringDate { get; set; }
         public string EmpGender { get; set; }

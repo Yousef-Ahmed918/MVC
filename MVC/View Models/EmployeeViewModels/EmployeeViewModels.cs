@@ -32,5 +32,8 @@ namespace MVC.View_Models.EmployeeViewModels
         
         [Display(Name = "Department")]
         public int? DeptId { get; set; }
+
+        public IFormFile? Image { get; set; }
+
     }
 }

@@ -25,5 +25,7 @@ namespace DataAccess.Models.EmployeeModels
         public int? DeptId { get; set; }
         public virtual Department? Department { get; set; }
 
+        public  string?  ImageName { get; set; }
+
     }
 }

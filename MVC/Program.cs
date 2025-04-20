@@ -7,6 +7,7 @@ using BussinessLogic.Services.Interfaces;
 using BussinessLogic.Profiles;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using BussinessLogic.Services.AttachmentServices;
 
 namespace MVC
 {
@@ -14,23 +15,29 @@ namespace MVC
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder(args); 
 
             #region Add services to the container.
             builder.Services.AddControllersWithViews(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            }); 
+            });
+
             //Department
-            builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
             //Employee
-            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            builder.Services.AddScoped<IEmployeeService , EmployeeService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            #region Before Unit Of Work
+            //builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
+            //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            #endregion
+            //Unit Of Work 
+            builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
             //Auto Mapper
             builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             builder.Services.AddAutoMapper(p => p.AddProfile(new MappingProfiles()));
-
+            //Attachment Service
+            builder.Services.AddScoped<IAttechmentService, AttachmentService>() ;
             //Options
             builder.Services.AddDbContext<AppDbContext>(options =>
             {

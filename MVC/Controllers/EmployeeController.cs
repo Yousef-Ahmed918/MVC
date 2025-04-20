@@ -17,9 +17,9 @@ namespace MVC.Controllers
        
 
     {
-        public IActionResult Index()
+        public IActionResult Index(string? EmployeeSearchName)
         {
-            var employees=_employeeService.GetAllEmployees();
+            var employees=_employeeService.GetAllEmployees(EmployeeSearchName);
             return View(employees);
         }
  
@@ -50,6 +50,7 @@ namespace MVC.Controllers
                         IsActive = employeeView.IsActive,
                         PhoneNumber = employeeView.PhoneNumber,
                         Salary = employeeView.Salary,
+                        Image=employeeView.Image
                     }; 
                     var res = _employeeService.CreateEmployee(createEmployeeDto);
                     if (res > 0) return RedirectToAction(nameof(Index));

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Models.SharedModels;
@@ -14,46 +15,53 @@ namespace DataAccess.Repositories.Classes
     {
 
         //CRUD Operations
+        #region Get
         //Get All
         public IEnumerable<TEntity> GetAll(bool withTracking = false)
         {
             if (withTracking)
             {
-                return _dbContext.Set <TEntity>().Where(e=>e.IsDeleted!=true).ToList();
+                return _dbContext.Set<TEntity>().Where(e => e.IsDeleted != true).ToList();
             }
             else
-                return _dbContext.Set <TEntity>().Where(e => e.IsDeleted != true).AsNoTracking().ToList();
+                return _dbContext.Set<TEntity>().Where(e => e.IsDeleted != true).AsNoTracking().ToList();
+        }
+        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
+        {
+
+            return _dbContext.Set<TEntity>()
+                .Select(selector).ToList() ;
+
+        }
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> filter)
+        {
+            return _dbContext.Set<TEntity>()
+                .Where(e => e.IsDeleted != true)
+                .Where(filter).ToList();
         }
         //GetById
         public TEntity? GetById(int id)
         {
-            return _dbContext.Set <TEntity>().Find(id);
-        }
+            return _dbContext.Set<TEntity>().Find(id);
+        } 
+        #endregion
         //Add
-        public int Add(TEntity entity)
+        public void Add(TEntity entity)
         {
             _dbContext.Set <TEntity>().Add(entity);
-            return _dbContext.SaveChanges();
         }
         //Edit
-        public int Update(TEntity entity)
+        public void Update(TEntity entity)
         {
             _dbContext.Set <TEntity>().Update(entity);
-            return _dbContext.SaveChanges();
         }
         //Delete
-        public int Remove(TEntity entity)
+        public void Remove(TEntity entity)
         {
             _dbContext.Set <TEntity>().Remove(entity);
-            return _dbContext.SaveChanges();
         }
 
-        //public IEnumerable<TEntity> GetAll<TResult>(System.Linq.Expressions.Expression<Func<TEntity, TResult>> selector)
-        //{
-
-        //    return _dbContext.Set<TEntity>()
-        //        .Select(selector);
-                
-        //}
+        
+        
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Models.EmployeeModels;
 using DataAccess.Models.SharedModels;
+using Microsoft.AspNetCore.Http;
 
 namespace BussinessLogic.DTOs.EmployeeDTOs
 {
@@ -32,7 +33,9 @@ namespace BussinessLogic.DTOs.EmployeeDTOs
         [Display(Name = "Hiring Date")]
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
-        public int ? DeptId { get; set; }   
+        public int ? DeptId { get; set; }
+
+        public IFormFile? Image { get; set; }
 
         #region Members To Reconfigure
         public DateOnly HiringDate { get; set; }
