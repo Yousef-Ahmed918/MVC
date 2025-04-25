@@ -4,12 +4,14 @@ using BussinessLogic.Services.Classes;
 using BussinessLogic.Services.Interfaces;
 using DataAccess.Models.EmployeeModels;
 using DataAccess.Models.SharedModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVC.View_Models.DepartmentViewModels;
 using MVC.View_Models.EmployeeViewModels;
 
 namespace MVC.Controllers
 {
+    [Authorize]
     public class EmployeeController(IEmployeeService _employeeService
          , ILogger<EmployeeController> _logger,
         IWebHostEnvironment _environment

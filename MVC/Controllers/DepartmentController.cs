@@ -5,9 +5,12 @@ using MVC.View_Models.DepartmentViewModels;
 using BussinessLogic.Services.Interfaces;
 using BussinessLogic.DTOs.DepartmentDTOs;
 using BussinessLogic.DTOs.EmployeeDTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MVC.Controllers
 {
+    [Authorize]
+
     //Constructor injection
     public class DepartmentController(IDepartmentServices _departmentService,
         ILogger<DepartmentController> _logger,

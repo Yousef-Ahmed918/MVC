@@ -8,6 +8,8 @@ using BussinessLogic.Profiles;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using BussinessLogic.Services.AttachmentServices;
+using DataAccess.Models.IdentityModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace MVC
 {
@@ -15,7 +17,7 @@ namespace MVC
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args); 
+            var builder = WebApplication.CreateBuilder(args);
 
             #region Add services to the container.
             builder.Services.AddControllersWithViews(options =>
@@ -32,12 +34,22 @@ namespace MVC
             //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             #endregion
             //Unit Of Work 
-            builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             //Auto Mapper
             builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             builder.Services.AddAutoMapper(p => p.AddProfile(new MappingProfiles()));
             //Attachment Service
-            builder.Services.AddScoped<IAttechmentService, AttachmentService>() ;
+            builder.Services.AddScoped<IAttechmentService, AttachmentService>();
+            //Register Service 
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                            .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders(); //If There more than one dbContext
+
+            //builder.Services.ConfigureApplicationCookie(config =>
+            //{
+            //    config.LoginPath = "Account/LogIn";
+            //});
+            //This happens by default from .NET
+
             //Options
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
@@ -69,11 +81,13 @@ namespace MVC
 
             app.UseRouting();
 
+            //Login With Token
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Account}/{action=LogIn}/{id?}");
 
             #endregion
 
